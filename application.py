@@ -15,12 +15,16 @@ import os
 
 app = Flask(__name__)
 
-# 必須放上自己的Channel Access Token
-line_bot_api = LineBotApi(os.environ.get('CHANNEL_ACCESS_TOKEN'))
-# 必須放上自己的Channel Secret
-handler = WebhookHandler(os.environ.get('CHANNEL_SECRET'))
+channel_acc_token = os.environ.get('CHANNEL_ACCESS_TOKEN')
+channel_sct = os.environ.get('CHANNEL_SECRET')
+user_id = os.environ.get('USER_ID')
 
-line_bot_api.push_message(os.environ.get('USER_ID'), TextSendMessage(text='你可以開始了'))
+# 必須放上自己的Channel Access Token
+line_bot_api = LineBotApi(channel_acc_token)
+# 必須放上自己的Channel Secret
+handler = WebhookHandler(channel_sct)
+
+#line_bot_api.push_message(user_id, TextSendMessage(text='AnimeBot Online'))
 
 
 # 監聽所有來自 /callback 的 Post Request
@@ -48,7 +52,10 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     message = TextSendMessage(text=event.message.text)
-    line_bot_api.reply_message(event.reply_token,message)
+    if re.match('commands', message):
+        line_bot_api.reply_message(event.reply_token, 'These are commands')
+    else:
+        line_bot_api.reply_message(event.reply_token,message)
 
 #主程式
 import os
