@@ -53,7 +53,7 @@ def callback():
 def handle_message(event):
     message = TextSendMessage(text=event.message.text)
     if re.match('commands', message):
-        line_bot_api.reply_message(event.reply_token, 'These are commands')
+        line_bot_api.reply_message(event.reply_token, TextSendMessage('These are commands!'))
     else:
         line_bot_api.reply_message(event.reply_token,message)
 
