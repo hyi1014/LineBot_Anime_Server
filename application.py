@@ -1,13 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Jun  2 21:16:35 2021
-@author: Ivan
-版權屬於「行銷搬進大程式」所有，若有疑問，可聯絡ivanyang0606@gmail.com
 
-Line Bot聊天機器人
-第一章 Line Bot申請與串接
-Line Bot機器人串接與測試
-"""
 #載入LineBot所需要的套件
 from flask import Flask, request, abort
 
@@ -19,14 +11,16 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 
+import os
+
 app = Flask(__name__)
 
 # 必須放上自己的Channel Access Token
-line_bot_api = LineBotApi('你自己的token')
+line_bot_api = LineBotApi(os.environ.get('CHANNEL_ACCESS_TOKEN'))
 # 必須放上自己的Channel Secret
-handler = WebhookHandler('你自己的secret')
+handler = WebhookHandler(os.environ.get('CHANNEL_SECRET'))
 
-line_bot_api.push_message('你自己的ID', TextSendMessage(text='你可以開始了'))
+line_bot_api.push_message(os.environ.get('USER_ID'), TextSendMessage(text='你可以開始了'))
 
 
 # 監聽所有來自 /callback 的 Post Request
