@@ -11,6 +11,7 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 
+import re
 import os
 
 app = Flask(__name__)
@@ -51,14 +52,13 @@ def callback():
 ##### 基本上程式編輯都在這個function #####
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    message = TextSendMessage(text=event.message.text)
-    if re.match('commands', message):
-        line_bot_api.reply_message(event.reply_token, TextSendMessage('These are commands!'))
+    message = text=event.message.text
+    if re.match('commands',message):
+        line_bot_api.reply_message(event.reply_token,TextSendMessage('This is commands'))
     else:
-        line_bot_api.reply_message(event.reply_token,message)
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(message))
 
 #主程式
-import os
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
