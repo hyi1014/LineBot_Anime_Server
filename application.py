@@ -24,7 +24,7 @@ line_bot_api = LineBotApi(channel_acc_token)
 # 必須放上自己的Channel Secret
 handler = WebhookHandler(channel_sct)
 
-#line_bot_api.push_message(user_id, TextSendMessage(text='AnimeBot Online'))
+line_bot_api.push_message(user_id, TextSendMessage(text='AnimeBot Online'))
 
 
 # 監聽所有來自 /callback 的 Post Request
