@@ -12,6 +12,7 @@ states =[
     "web_anime1",
     "set_date",
     "set_name",
+    "set_update_name",
     "set_keyword",
 ]
 transitions = [
@@ -51,8 +52,27 @@ transitions = [
     {
         "trigger": "advance",
         "source": "update",
-        "dest": "set_name",
-        "conditions": "is_going_to_set_name",
+        "dest": "update",
+        "conditions": "is_going_to_update",
+    },
+    {
+        "trigger": "advance",
+        "source": "update",
+        "dest": "set_update_name",
+        "conditions": "is_going_to_set_update_name",
+    },
+    #src is set_update_name
+    {
+        "trigger": "advance",
+        "source": "set_update_name",
+        "dest": "set_update_name",
+        "conditions": "is_going_to_set_update_name",
+    },
+    {
+        "trigger": "advance",
+        "source": "set_update_name",
+        "dest": "menu",
+        "conditions": "is_going_to_menu",
     },
     #src is set_web
     {
@@ -161,7 +181,10 @@ class FSM(GraphMachine):
             if(msg == "update"):
                 show_update_msg(event)
                 return True
-            
+        if(self.state == "update"):
+            if(msg == "search"):
+                search_update(event)
+                return True
         return False
         
     def is_going_to_set_web(self, event):
@@ -210,8 +233,7 @@ class FSM(GraphMachine):
     def is_going_to_set_name(self, event):
         msg = event.message.text
         if(self.state =="set_date" or
-           self.state == "web_anime1" or
-           self.state == "update"):
+           self.state == "web_anime1"):
             if(msg == "set name"):
                 show_set_name_msg(event)
                 return True
@@ -259,6 +281,11 @@ class FSM(GraphMachine):
            self.state == "help"):
             if(msg == "menu" or msg == "exit"):
                 return True
+        if(self.state == "set_update_name"):
+            if(msg == "search"):
+                search_update(event)
+                return True
+            
         if(self.state == "set_name"):
             if(msg == "search"):
                 search_name(event)
@@ -269,6 +296,24 @@ class FSM(GraphMachine):
                 return True
         return False
     
+    def is_going_to_set_update_name(self, event):
+        msg = event.message.text
+        if(self.state == "update"):
+            if(msg == "set name"):
+                show_set_name_msg(event)
+                return True
+        if(self.state == "set_update_name"):
+            if(msg.find("add")>=0):
+                add_name(event)
+                return True
+            if(msg.find("del")>=0):
+                del_name(event)
+                return True
+            if(msg.find("show")>=0):
+                show_name_list(event)
+                return True
+    
+        return False
 def get_fsm(init_state):
     #machine_configs
     machine = FSM(

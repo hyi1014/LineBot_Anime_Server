@@ -58,8 +58,6 @@ def show_update_msg(event):
     line_bot_api.reply_message(event.reply_token, 
                                TextSendMessage(text))
 
-def list_update_week_msg(event):
-    print("list_update_week_msg")
 
 def add_name(event):
     global name_list
@@ -89,6 +87,12 @@ def show_name_list(event):
     text = "-----Name List-----\n"
     for i in range(len(name_list)):
         text += str(i+1) + ". " + name_list[i] + "\n"
+    line_bot_api.reply_message(event.reply_token, 
+                               TextSendMessage(text))
+def show_keyword_list(event):
+    text = "-----Keyword List-----\n"
+    for i in range(len(keyword_list)):
+        text += str(i+1) + ". " + keyword_list[i] + "\n"
     line_bot_api.reply_message(event.reply_token, 
                                TextSendMessage(text))
 
@@ -162,7 +166,7 @@ def show_set_keyword_msg(event):
     text += "2. del keyword\...\n"
     text += "3. show keyword list\n"
     text += "4. search\n"
-    text += "ex: add/del keyword 小說改編 王道\n"
+    text += "ex: add/del keyword 小說改編 喜劇\n"
     text += "    show\n"
     text += "    search\n"
     line_bot_api.reply_message(event.reply_token, 
@@ -204,7 +208,6 @@ def search_name(event):
 def search_keyword(event):
     url = ""
     text = ""
-    print(date)
     
     if(web == "acg"):
         url = get_acg_url(date)
@@ -212,3 +215,23 @@ def search_keyword(event):
     line_bot_api.reply_message(event.reply_token,
                                TextSendMessage(text))
     clear_list()   
+
+def search_update(event):
+    url = ""
+    text = ""
+    year = datetime.datetime.now().year
+    month = datetime.datetime.now().month
+    for i in [10, 7, 4, 1]:
+        if month > i:
+            month = i
+            break
+    
+    date = "{:4d}{:02d}".format(year, month)
+    #print(date)
+    url = get_acg_url(date)
+    #print(url)
+    text = web_scrapying_acg_update(url, name_list)
+    #print(name_list)
+    #print(text)
+    line_bot_api.reply_message(event.reply_token,
+                               TextSendMessage(text))
