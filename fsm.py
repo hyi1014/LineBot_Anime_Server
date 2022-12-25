@@ -1,5 +1,6 @@
 from transitions.extensions import GraphMachine
 
+import utils
 from utils import *
 
 states =[
@@ -90,6 +91,12 @@ transitions = [
     {
         "trigger": "advance",
         "source": "set_date",
+        "dest": "set_date",
+        "conditions": "is_going_to_set_date",
+    },
+    {
+        "trigger": "advance",
+        "source": "set_date",
         "dest": "set_name",
         "conditions": "is_going_to_set_name",
     },
@@ -109,6 +116,12 @@ transitions = [
     {
         "trigger": "advance",
         "source": "set_name",
+        "dest": "set_name",
+        "conditions": "is_going_to_set_name",
+    },
+    {
+        "trigger": "advance",
+        "source": "set_name",
         "dest": "menu",
         "conditions": "is_going_to_menu",
     },
@@ -124,6 +137,7 @@ transitions = [
 class FSM(GraphMachine):
     def __init__(self, **machine_configs):
         self.machine = GraphMachine(model=self, **machine_configs)
+    
     def is_going_to_help(self, event):
         msg = event.message.text
         if(self.state == "menu" or self.state == "help"):
@@ -131,7 +145,7 @@ class FSM(GraphMachine):
                 show_help_msg(event)
                 return True
             if(msg == "show fsm"):
-                #get_fsm("menu").get_graph().draw("fsm.png", prog="dot", format="png")
+                print("show fsm")
                 return True
             
         return False
@@ -148,8 +162,7 @@ class FSM(GraphMachine):
         msg = event.message.text
         if(self.state == "menu"):
             if(msg == "set web"):
-                #print("go to set web")
-                #show_web_msg(event)
+                show_set_web_msg(event)
                 return True
         
         return False
@@ -158,8 +171,7 @@ class FSM(GraphMachine):
         msg = event.message.text
         if(self.state == "set_web"):
             if(msg == "acg"):
-                print("go to web acg")
-                #show_date_msg(event)
+                show_web_acg_msg(event)
                 return True
             
         return False
@@ -168,8 +180,14 @@ class FSM(GraphMachine):
         msg = event.message.text
         if(self.state == "web_acg"):
             if(msg == "set date"):
-                print("go to set date")
-                #show_date_msg(event)
+                show_set_date_msg(event)
+                return True
+        if(self.state == "set_date"):
+            if(msg.find("set date")>=0):
+                set_date(event)
+                return True
+            if(msg.find("search")>=0):
+                search(event)
                 return True
             
         return False
@@ -178,46 +196,54 @@ class FSM(GraphMachine):
         msg = event.message.text
         if(self.state == "set_web"):
             if(msg == "anime1"):
-                print("go to web anime1")
+                show_web_anime1_msg(event)
                 return True
-                #show_name_msg(event)
-            if(msg == "show"):
-                print("list anime1")
-                return True
+            
         return False
     
     def is_going_to_set_name(self, event):
         msg = event.message.text
-        if(self.state == "web_anime1" or 
-           self.state == "set_date" or
-           self.state == "set_name" or
-           self.state == "set_keyword" or
+        if(self.state =="set_date" or
+           self.state == "web_anime1" or
            self.state == "update"):
             if(msg == "set name"):
-                print("go to set name")
-                #show_name_msg(event)
+                show_set_name_msg(event)
                 return True
-            if(msg == "add"):
-                print("add")
-                return
-            if(msg == "del"):
-                print("del")
-                return
+            
+        if(self.state == "set_name"):
+      
+            if(msg.find("add")>=0):
+                add_name(event)
+                return True
+    
+            if(msg.find("del")>=0):
+                del_name(event)
+                print("del name")
+                return True
+            
+            if(msg.find("show")>=0):
+                show_name_list(event)
+                print("show name list")
+                return True 
+                         
         return False
     
     def is_going_to_set_keyword(self, event):
         msg = event.message.text
         if(self.state == "set_date"):
             if(msg == "set keyword"):
-                print("go to set keyword")
+                show_set_keyword_msg(event)
                 return True
-            if(msg == "add"):
-                print("add")
-                return True
-            if(msg == "del"):
-                print("del")
-                #show_keyword_msg(event)
-                return True
+        if(self.state == "set_keyword"):
+            if(msg.find("add")>=0):
+                add_keyword(event)
+                return False
+            if(msg.find("del")>=0):
+                del_keyword(event)
+                return False
+            if(msg.find("show")>=0):
+                show_keyword_list(event)
+                return False
         return False
     
     def is_going_to_menu(self, event):
@@ -226,11 +252,10 @@ class FSM(GraphMachine):
            self.state == "set_keyword" or 
            self.state == "help"):
             if(msg == "menu" or msg == "exit"):
-                print("go to menu")
                 return True
             if(msg == "search"):
                 print("search")
-                #show_menu_msg(event)
+                search(event)
                 return True
         return False
     
@@ -245,3 +270,4 @@ def get_fsm(init_state):
     )
     return machine
 
+#get_fsm("menu").get_graph().draw("fsm.png", prog="dot", format="png")

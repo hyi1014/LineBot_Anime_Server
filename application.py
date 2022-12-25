@@ -60,13 +60,6 @@ def handle_message(event):
     id = get_id(event)
     machine.advance(event)
     print(machine.state)
-    '''
-    message = event.message.text
-    if re.match('commands', message):
-        line_bot_api.reply_message(event.reply_token, TextSendMessage('This is commands'))
-    else:
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(message))
-   '''
 
 #主程式
 if __name__ == "__main__":
