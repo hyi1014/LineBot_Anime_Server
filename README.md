@@ -1,4 +1,3 @@
-# LineBot_Anime_Server
 #    設計理念
 身為一名宅宅，能夠高速追蹤動漫是必須的
 `Anime_Bot` 會幫你搜尋從201710的舊番 -202210 的新番
@@ -33,9 +32,14 @@
     ![](https://i.imgur.com/GXEKJSg.png)
     ![](https://i.imgur.com/ihJWfW2.png)
     ![](https://i.imgur.com/H6ifRVU.png)
+*    想換個口味看，用keyword 查詢
+    ![](https://i.imgur.com/i9XMWbP.png)
+    ![](https://i.imgur.com/s9a3fMa.png)
+    ![](https://i.imgur.com/g5lJrOF.png)
 
 *   FSM
     ![](https://i.imgur.com/5zpMlZI.png)
 
 *    Running on Render
     ![](https://i.imgur.com/MCXgivx.png)
+
