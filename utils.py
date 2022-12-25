@@ -162,8 +162,8 @@ def show_set_name_msg(event):
     
 def show_set_keyword_msg(event):
     text = "-----Options-----\n"
-    text += "1. add keyword\...\n"
-    text += "2. del keyword\...\n"
+    text += "1. add keyword/...\n"
+    text += "2. del keyword/...\n"
     text += "3. show keyword list\n"
     text += "4. search\n"
     text += "ex: add/del keyword 小說改編 喜劇\n"
