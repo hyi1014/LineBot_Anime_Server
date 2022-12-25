@@ -29,7 +29,6 @@
 *   不知道，星期幾更新甚麼，到update search
     ![](https://i.imgur.com/KeYKEgK.png)
 *   想確定特定動漫的更新時間，再set name 後 search
-    ![](https://i.imgur.com/GXEKJSg.png)
     ![](https://i.imgur.com/ihJWfW2.png)
     ![](https://i.imgur.com/H6ifRVU.png)
 *    想換個口味看，用keyword 查詢
