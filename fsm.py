@@ -129,6 +129,12 @@ transitions = [
     {
         "trigger": "advance",
         "source": "set_keyword",
+        "dest": "set_keyword",
+        "conditions": "is_going_to_set_keyword",
+    },
+    {
+        "trigger": "advance",
+        "source": "set_keyword",
         "dest": "menu",
         "conditions": "is_going_to_menu",
     }
@@ -237,13 +243,13 @@ class FSM(GraphMachine):
         if(self.state == "set_keyword"):
             if(msg.find("add")>=0):
                 add_keyword(event)
-                return False
+                return True
             if(msg.find("del")>=0):
                 del_keyword(event)
-                return False
+                return True
             if(msg.find("show")>=0):
                 show_keyword_list(event)
-                return False
+                return True
         return False
     
     def is_going_to_menu(self, event):
@@ -253,9 +259,13 @@ class FSM(GraphMachine):
            self.state == "help"):
             if(msg == "menu" or msg == "exit"):
                 return True
+        if(self.state == "set_name"):
             if(msg == "search"):
-                print("search")
-                search(event)
+                search_name(event)
+                return True
+        if(self.state == "set_keyword"):
+            if(msg == "search"):
+                search_keyword(event)
                 return True
         return False
     

@@ -186,18 +186,29 @@ def get_anime_list(msg, op, event):
                                TextSendMessage(text))
     return ret_list
 
-def search(event):
+def search_name(event):
     url = ""
     text = ""
     print(date)
     
     if(web == "acg"):
         url = get_acg_url(date)
-        text = web_scrapying_acg(url, name_list)
+        text = web_scrapying_acg_name(url, name_list)
     if(web == "anime1"):
         url = get_anime1_url()
         text = web_scrapying_anime1(url, name_list)
     line_bot_api.reply_message(event.reply_token,
                                TextSendMessage(text))
     clear_list()
+
+def search_keyword(event):
+    url = ""
+    text = ""
+    print(date)
     
+    if(web == "acg"):
+        url = get_acg_url(date)
+        text = web_scrapying_acg_keywords(url, keyword_list)
+    line_bot_api.reply_message(event.reply_token,
+                               TextSendMessage(text))
+    clear_list()   
