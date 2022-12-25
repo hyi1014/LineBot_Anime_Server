@@ -235,3 +235,4 @@ def search_update(event):
     #print(text)
     line_bot_api.reply_message(event.reply_token,
                                TextSendMessage(text))
+    clear_list()

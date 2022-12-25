@@ -32,9 +32,12 @@ def web_scrapying_ani1(ani1_url):
     response = requests.get(ani1_url)
     response.encoding = 'utf-8'
     soup = BeautifulSoup(response.text, "html.parser")
-    for stream_site in soup.find_all("a"):
-        print("> " + stream_site.text + " : ", end="")
-        print(stream_site.get("href"))
+    #print(soup.prettify())
+    for anime in soup.find_all("td"):
+        for name in anime.find_all("a"):
+            print(name.text + " : " + name.get("href"))
+    #    for name in anime.find("td"):
+    #        print(name.text)
 
 def web_scrapying_acg_name(acg_url ,names):
     ret = ""
@@ -121,18 +124,20 @@ def web_scrapying_acg_update(acg_url, names):
                 ret += ("Name: " + (anime.find("h3").text) + '\n')
                 ret += (time + '\n')      
     return ret
-    
 
+
+   
+'''
 if __name__ == "__main__":
     names = ["鏈鋸人", "忍者"]
     keywords = ["喜劇"]
     do = []
     #time = get_time(2022, 4)
     #print(time)
-    acg_url = get_acg_url("202210")
-    #ani1_url = get_anime1_url()
-    #web_scrapying_ani1(ani1_url)
-    text = web_scrapying_acg_update(acg_url, names)
-    print(text)
-  
+    #acg_url = get_acg_url("202210")
+    ani1_url = get_anime1_url()
+    web_scrapying_ani1(ani1_url)
+    #text = web_scrapying_acg_update(acg_url, names)
+    #print(text)
+''' 
     

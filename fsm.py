@@ -171,7 +171,13 @@ class FSM(GraphMachine):
                 show_help_msg(event)
                 return True
             if(msg == "show fsm"):
-                print("show fsm")
+                #print("show fsm")
+                #get_fsm("menu").get_graph().draw("fsm.png", prog="dot", format="png")
+                image_message = ImageSendMessage(
+                    original_content_url='https://img.istreetview.com/?id=+ol1jTEj&url=3cRltBdhUaYc2lJ275Ez4NhqjMmC+vaqAQ4m3zXbsrDDGm94YNcv67oTZnz1/+E7RvOZg3hVx42wEEqRqNsmpMTL4WuaxktUyU9Jag==',
+                    preview_image_url='https://img.istreetview.com/?id=+ol1jTEj&url=3cRltBdhUaYc2lJ275Ez4NhqjMmC+vaqAQ4m3zXbsrDDGm94YNcv67oTZnz1/+E7RvOZg3hVx42wEEqRqNsmpMTL4WuaxktUyU9Jag=='
+                )
+                line_bot_api.reply_message(event.reply_token, image_message)
                 return True
             
         return False
@@ -216,7 +222,7 @@ class FSM(GraphMachine):
                 set_date(event)
                 return True
             if(msg.find("search")>=0):
-                search(event)
+                search_name(event)
                 return True
             
         return False
